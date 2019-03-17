@@ -13,36 +13,44 @@ Inconvenientes:
 
 2- falta la parte de crear y buscar transacciones
 
-3- cuando busca un buscarcliente corre, imprime None para los argumentos que no coinciden con la palabra
-    buscada. (los otros 3 que no coincidan con Apellido, Nombre o CUIT)
-
 '''
 
-# .............Consulta de clientes/transacciones....................
+# -------------------------------------------------------------------------------
+#                 INICIO DATOS EN EL CODIGO DEL PROGRAMA
+# -------------------------------------------------------------------------------
 
+# -------------------clientes harcodeados-------------------
 
-def consultarcliente(consulta):
-    # aca faltaria agregarle que chequee si existe
-    consulta = clientList[consulta]
-    print(
-        "El cliente n°: %s \n %s, %s. \n CUIT: %s \n"
-        % (consulta[0],
-            consulta[1],
-            consulta[2],
-            consulta[3])
-            )
-    return
+clientList = { #inicio lista de clientes
 
+    1: {                    #incio cliente 1
+        "Codigo": 1,
+        "Apellido": "Arocena",
+        "Nombre": "Juan Manuel",
+        "CUIT": "30-25125842-2"
+    },                      #fin cliente 1
+    2: {                    #incio cliente 2
+        "Codigo": 2,
+        "Apellido": "Villar",
+        "Nombre": "Sandra",
+        "CUIT": "23-251152842-2"
+    }                       #fin cliente 2
+}
 
-def consultartransaccion(consulta):
-    print(
-        "La transaccion n°: %s \n en la fecha: %s.\n Producto: %s. \n Importe total: %s \n"
-        % (consulta[0],
-        consulta[1],
-        consulta[2],
-        consulta[3])
-             )
-    return
+# -------------------transacciones harcodeadas-------------------
+
+# ahora son listas, modificar a diccionarios y que acepten mas de un item (o probar con un item primero)
+transaccionList = {
+    1: [1, "22 de marzo del 2015", "remera estampada", 4500.00],
+    2: [2, "17 de abril del 2016", "taza ploteada", 1500.00]  # suponiendo que vendes un unico producto con
+                                                              # un precio unico
+}
+
+# --------------------FIN DATOS EN EL CODIGO DEL PROGRAMA-----------------------
+
+# -------------------------------------------------------------------------------
+#                   COMIENZO DEL PROGRAMA
+# -------------------------------------------------------------------------------
 
 # .............Creacion de clientes/transacciones....................
 
@@ -51,17 +59,21 @@ def crearcliente():
     print("Ahora se creara un nuevo cliente.")
 
     codigoNuevoCliente = len(clientList) + 1   # mostrar el numero de cliente creado
-    apellido = input("Ingrese el apellido del cliente: ")
-    nombre = input("Ingrese el nombre del cliente: ")
-    CUIT = input("Ingrese la CUIT del cliente: ")
-    clientList[codigoNuevoCliente] = [codigoNuevoCliente, apellido, nombre, CUIT]
-
-
+    print(codigoNuevoCliente)
+    apellidonuevo = input("Ingrese el apellido del cliente: ")
+    nombrenuevo = input("Ingrese el nombre del cliente: ")
+    CUITnuevo = input("Ingrese la CUIT del cliente: ")
+    clientList[codigoNuevoCliente] = {
+        "Codigo": codigoNuevoCliente,
+        "Apellido": apellidonuevo,
+        "Nombre": nombrenuevo,
+        "CUIT": CUITnuevo
+    }
     print("Se creo un nuevo cliente con: n°: %s \n %s, %s. \n CUIT: %s \n"
          % (codigoNuevoCliente,
-        apellido,
-        nombre,
-        CUIT)
+        apellidonuevo,
+        nombrenuevo,
+        CUITnuevo)
         )
     return
 
@@ -72,56 +84,54 @@ def creartransaccion():
 
 # .............Borrar clientes/transacciones....................
 
-def borrarclientes(cliente):
+def borrarclientes(clienteaborrar):
     print("Se borrara el cliente: \n")
-    consultarcliente(cliente)
+    consultarcliente(clienteaborrar)
     respuesta = input("Esta seguro? [S para confirmar]: ")
     if respuesta == "s" or respuesta == "S":
-        del clientList[cliente]
+        del clientList[clienteaborrar]
         print("Cliente borrado.")
     else:
         pass
 
 
-# -------------------------
-# clientes harcodeados
-
-clientList = {
-    1: [1, "Arocena", "Juan Manuel", "30-25125842-2"],
-    2: [2, "Villar", "Sandra", "23-251152842-2"]
-}
-
-# -------------------------
-# transacciones harcodeadas
-
-transaccionList = {
-    1: [1, "22 de marzo del 2015", "remera estampada", 4500.00],
-    2: [2, "17 de abril del 2016", "taza ploteada", 1500.00]  # suponiendo que vendes un unico producto con
-                                                              # un precio unico
-}
-
-
 # .......................BUSQUEDAS...........................
 
-# BUSQUEDA POR NOMBRE
+def consultarcliente(codigocliente):                        # BUSQUEDA POR CODIGO
+    # aca faltaria agregarle que chequee si existe
+    clienteaimprimir = clientList[codigocliente]
+    print(
+        "El cliente n°: %s \n %s, %s. \n CUIT: %s \n"
+        % (clienteaimprimir["Codigo"],
+            clienteaimprimir["Apellido"],
+            clienteaimprimir["Nombre"],
+            clienteaimprimir["CUIT"])
+            )
+    return
 
 
-def buscarcliente(busqueda):
-    print("Se buscara el cliente con: %s" % busqueda)
+def consultartransaccion(codigotransaccion):                # BUSQUEDA POR CODIGO
+    print(
+        "La transaccion n°: %s \n en la fecha: %s.\n Producto: %s. \n Importe total: %s \n"
+        % (codigotransaccion[0], #esto no es mas una lista, (debe ser) un diccionario
+        codigotransaccion[1],
+        codigotransaccion[2],
+        codigotransaccion[3])
+             )
+    return
+
+def buscarcliente(palabrabusqueda):                         # BUSQUEDA POR NOMBRE
+    print("Se buscara el cliente con: %s." % palabrabusqueda)
     ultimokey = sorted(clientList.keys())[-1]
     for key in range(1, ultimokey+1):
         for x in clientList[key]:
-            if x == busqueda:
-                print("Cliente encontrado: ")
-                print(consultarcliente(key))
-    # else:
-    #      print("no se encontro")
-
-
-        # return print("No se encontro el cliente")
+            if clientList[key][x] == palabrabusqueda:  # aca pregunta si es igual, hay que agregar si contiene a
+                consultarcliente(key)
+    # else:                                             # el objetivo es si no coincide apellido, nombre o cuit
+    #     print("No se encontro el valor buscado.")     # en la realidad se fija si cuit coincide con palabrabuscada
+    #                                                           y asi con los otros argumentos. entonces
+    #                                                           siempe pasa que encuentra 1 pero falla en los
+    #                                                           3 que no coinciden con la busqueda
+    # return
 
 # ----------------MAIN---------------------------------------
-
-print(clientList)
-borrarclientes(1)
-print(clientList)
