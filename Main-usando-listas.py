@@ -8,7 +8,7 @@ Inconvenientes:
 
 1- buscarcliente() funciona si:
     a) el cliente estaba harcodeado en el programa
-    b) busca un numero.
+    b) busca un string dentro del diccionario.
  si busca un string de un cliente que se cargo con crearcliente() no funciona
 
 2- falta la parte de crear y buscar transacciones
