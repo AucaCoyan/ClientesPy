@@ -134,4 +134,6 @@ def buscarcliente(palabrabusqueda):                         # BUSQUEDA POR NOMBR
     #                                                           3 que no coinciden con la busqueda
     # return
 
-# ----------------MAIN---------------------------------------
+# -------------------------------------------------------------------------------
+#                 INICIO DATOS EN EL CODIGO DEL PROGRAMA
+# -------------------------------------------------------------------------------
