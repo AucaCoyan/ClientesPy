@@ -21,8 +21,7 @@ Inconvenientes:
 
 # -------------------clientes harcodeados-------------------
 
-clientList = { #inicio lista de clientes
-
+clientList = { #inicio lista de clientes harcodeados
     1: {                    #incio cliente 1
         "Codigo": 1,
         "Apellido": "Arocena",
@@ -35,7 +34,7 @@ clientList = { #inicio lista de clientes
         "Nombre": "Sandra",
         "CUIT": "23-251152842-2"
     }                       #fin cliente 2
-}
+}               #fin lista de clientes harcodeados
 
 # -------------------transacciones harcodeadas-------------------
 
@@ -95,13 +94,24 @@ def borrarclientes(clienteaborrar):
         pass
 
 
+def borrartransaccion(transaccionaborrar):
+    print("Se borrara la transaccion: \n")
+    consultartransaccion(transaccionaborrar)
+    respuesta = input("Esta seguro? [S para confirmar]: ")
+    if respuesta == "s" or respuesta == "S":
+        del transaccionList[transaccionaborrar]
+        print("Transaccion borrada.")
+    return
+
 # .......................BUSQUEDAS...........................
 
 def consultarcliente(codigocliente):                        # BUSQUEDA POR CODIGO
-    # aca faltaria agregarle que chequee si existe
-    clienteaimprimir = clientList[codigocliente]
-    print(
-        "El cliente n°: %s \n %s, %s. \n CUIT: %s \n"
+    try:                                                    # prueba si el cliente existe
+        clienteaimprimir = clientList[codigocliente]
+    except:                                                 # el cliente no existe
+        print("No se pudo encontrar cliente")
+    else:                                                   # el cliente existe y lo encontro
+        print("El cliente n°: %s \n %s, %s. \n CUIT: %s \n"
         % (clienteaimprimir["Codigo"],
             clienteaimprimir["Apellido"],
             clienteaimprimir["Nombre"],
@@ -133,7 +143,10 @@ def buscarcliente(palabrabusqueda):                         # BUSQUEDA POR NOMBR
     #                                                           siempe pasa que encuentra 1 pero falla en los
     #                                                           3 que no coinciden con la busqueda
     # return
+# -------------------------------FIN FUNCIONES-----------------------------------
 
 # -------------------------------------------------------------------------------
-#                 INICIO DATOS EN EL CODIGO DEL PROGRAMA
+#                                    MAIN
 # -------------------------------------------------------------------------------
+
+consultarcliente(2)
