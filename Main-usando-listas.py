@@ -60,6 +60,24 @@ transaccionList = {
                 "Cantidad": 2,
                 }
         }
+    },
+    2: {
+        "Codigo de transf": 2,
+        "Nro de Cliente": 1,  # todo: en un futuro tendria que buscar cliente por nombre
+        "Product List":
+            {
+                1: {
+                    "Item": 1,
+                    "Codigo de producto": 1,
+                    "Cantidad": 5,
+
+                },
+                2: {
+                    "Item": 2,
+                    "Codigo de producto": 1,
+                    "Cantidad": 22,
+                }
+            }
     }
 }
 
@@ -177,7 +195,7 @@ def borrartransaccion(transaccionaborrar):
 
 def tryclienteexiste(codigocliente):
     try:                                                    # prueba si el cliente existe
-        clienteaprobar = clientList[codigocliente]
+        clientList[codigocliente]
     except:                                                 # el cliente no existe
         print("No se pudo encontrar el cliente.")
         return False
@@ -187,16 +205,17 @@ def tryclienteexiste(codigocliente):
 
 def tryproductoexiste(codigoproducto):
     try:                                                    # prueba si el producto existe
-        productoaprobar = productList[codigoproducto]
+        productList[codigoproducto]
     except:                                                 # el producto no existe
         print("No se pudo encontrar el producto.")
         return False
     else:
         return True
 
+
 def trytransaccionexiste(codigotransaccion):
     try:                                                    # prueba si la transaccion existe
-        transaccionaprobar = transaccionList[codigotransaccion]
+        transaccionList[codigotransaccion]
     except:                                                 # la transaccion no existe
         print("No se pudo encontrar la transaccion.")
         return False
@@ -248,6 +267,46 @@ def buscarcliente(palabrabusqueda):                         # BUSQUEDA POR NOMBR
     #                                                           siempe pasa que encuentra 1 pero falla en los
     #                                                           3 que no coinciden con la busqueda
     # return
+
+# .......................CUENTAS TRANSACCIONES...........................
+
+
+def precioproducto(codigoproducto):
+    if tryproductoexiste(codigoproducto) == False:
+        return
+    else:
+        precio = productList[codigoproducto]["Precio"]
+        return precio
+
+
+def calculartransaccion(codigotransaccion):
+    if trytransaccionexiste(codigotransaccion) == False:
+        return                                              # fixme: idem consultarcliente
+    else:
+        totaltransaccion = 0
+        cantidaddeitemstransaccion = len(transaccionList[codigotransaccion]["Product List"]) + 1
+        for ProductListItem in range(1, cantidaddeitemstransaccion):
+            productoN = transaccionList[codigotransaccion]["Product List"][ProductListItem]["Codigo de producto"]
+            precioN = precioproducto(productoN)
+            cantidadN = transaccionList[codigotransaccion]["Product List"][ProductListItem]["Cantidad"]
+            totaltransaccion = totaltransaccion + precioN * cantidadN
+    return totaltransaccion
+
+
+def calculardeudacliente(codigocliente):
+    if tryclienteexiste(codigocliente) == False:
+        return
+    else:
+        totaldeudacliente = 0
+        cantidaddetransacciones = len(transaccionList) + 1
+        for x in range(1, cantidaddetransacciones):
+            if transaccionList[x]["Nro de Cliente"] == codigocliente:
+                sumardeuda = calculartransaccion(int(x))
+                totaldeudacliente = totaldeudacliente + sumardeuda
+        print("El cliente debe %s pesos. " % totaldeudacliente)
+        return
+
+
 # -------------------------------FIN FUNCIONES-----------------------------------
 
 # -------------------------------------------------------------------------------
@@ -271,6 +330,8 @@ while True:
                            "9-Consultar transaccion por CODIGO \n"
                            "10-Imprimir lista de clientes \n"
                            "11-Imprimir lista de transacciones \n"
+                           "12-Calcular transaccion \n"
+                           "13-Calcular cuanto debe un cliente"
                            "\n"
                            "Para finalizar, presione N\n"
                            "\n"
@@ -297,5 +358,9 @@ while True:
         print(clientList)
     if ingresousuario == "11":
         print(transaccionList)
+    if ingresousuario == "12":
+        calculartransaccion(int(input("Ingrese el CODIGO de la transaccion a calcular: ")))
+    if ingresousuario == "13":
+        calculardeudacliente(int(input("Ingrese el CODIGO del cliente a calcular su deuda: ")))
     if ingresousuario == "n" or ingresousuario =="N":
         break
