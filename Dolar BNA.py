@@ -1,6 +1,6 @@
 import urllib
 
-page = urlopen("http://www.bna.com.ar/Personas");
+page = urlopen("https://ae7.st/g/")
 
 contents = page.read()
 
