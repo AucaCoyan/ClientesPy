@@ -90,14 +90,14 @@ transaccionList = {
 # .............Creacion de clientes/transacciones....................
 
 
-def crearcliente():
+def crearcliente() -> None:
     print("Ahora se creara un nuevo cliente.")  # aviso de creacion
 
-    codigoNuevoCliente = len(clientList) + 1   # busca el ultimo numero de cliente creado y le suma uno
-    apellidonuevo = input("Ingrese el apellido del cliente: ")  # sucesion de imputs
-    nombrenuevo = input("Ingrese el nombre del cliente: ")
-    CUITnuevo = input("Ingrese la CUIT del cliente: ")
-    clientList[codigoNuevoCliente] = {                          # creacion efectiva del cliente
+    codigoNuevoCliente: int = len(clientList) + 1   # busca el ultimo numero de cliente creado y le suma uno
+    apellidonuevo: str = input("Ingrese el apellido del cliente: ")  # sucesion de imputs
+    nombrenuevo: str = input("Ingrese el nombre del cliente: ")
+    CUITnuevo: str = input("Ingrese la CUIT del cliente: ")
+    clientList[codigoNuevoCliente] = {       #asignacion de variable no necesita type                    # creacion efectiva del cliente
         "Codigo": codigoNuevoCliente,
         "Apellido": apellidonuevo,
         "Nombre": nombrenuevo,
