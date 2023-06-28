@@ -201,6 +201,8 @@ def tryclienteexiste(codigocliente):
         return False
     else:
         return True
+    finally:
+        print("se ejecutó la función")
 
 
 def tryproductoexiste(codigoproducto):
